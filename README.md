@@ -13,6 +13,12 @@ Also, make sure to clone this repository recursively, as this repository depends
 git clone --recursive https://github.com/pauliyobo/cytolk
 ```
 
+once that's done, to build use the following command
+
+```
+python setup.py build_ext --inplace
+```
+
 ## Usage
 The API is fully compatible with the python tolk bindings, therefore, transitioning should be straight forward
 
