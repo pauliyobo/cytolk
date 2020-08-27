@@ -35,7 +35,7 @@ print(f"screenreader detected is {Tolk.detect_screen_reader()}")
 if Tolk.has_speech():
     print("this screenreader supports speech")
 if Tolk.has_braille():
-    print("this library supports braille")
+    print("this screenreader supports braille")
 
 # let's speak some text
 Tolk.speak("hello")
