@@ -1,0 +1,3 @@
+[submodule "tolk"]
+	path = tolk
+	url = https://github.com/dkager/tolk
