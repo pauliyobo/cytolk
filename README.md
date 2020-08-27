@@ -1,5 +1,11 @@
 # cytolk
 A cython wrapper over the tolk library.
+## Installation
+You can install cytolk with
+
+```
+pip install cytolk
+```
 ## building
 To successfully build, you will need to install cython
 
