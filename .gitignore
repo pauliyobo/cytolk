@@ -1,4 +1,7 @@
 build/
+cytolk.egg-info
+dist/
+venv/
 *.cpp
 *.py[cod]
 *.dll
