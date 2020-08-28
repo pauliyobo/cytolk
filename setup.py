@@ -1,7 +1,9 @@
 import glob
+import os
 import platform
 
 from setuptools import setup, Extension
+from Cython.Build import cythonize
 from Cython.Distutils import build_ext
  
 def get_nvda_dll():
@@ -9,9 +11,19 @@ def get_nvda_dll():
         return "nvdaControllerClient32.dll"
     return "nvdaControllerClient64.dll"
 
+# the source variable will have an extension appended to it dynamically
+# that way, we can just decide to build using the generated c code or using the .pyx file with ease
+source = "cytolk"
+
+if "BUILD_CYTOLK" in os.environ:
+    source += ".pyx"    
+else:
+    source += ".c"
+
+
 glob_files = glob.glob("tolk/src/*.cpp")
 glob_files.extend(glob.glob("tolk/src/*.c"))
-sources = ["cytolk.pyx"]+glob_files
+sources = [source]+glob_files
 
 macros = [
 	('UNICODE', "1"),
@@ -20,16 +32,16 @@ macros = [
 ]
 
 extensions=[Extension(
-	"cytolk", 
-	sources, 
-	define_macros=macros, 
-	language="C++", 
-	libraries = "User32 Ole32 OleAut32".split(" "),
+    "cytolk", 
+    sources, 
+    define_macros=macros, 
+    language="C++", 
+    libraries = "User32 Ole32 OleAut32".split(" "),
 )]
 
 setup(
     name = "cytolk",
-    version = "0.1.1",
-    cmdclass = {"build_ext": build_ext},
-    ext_modules = extensions,
+    cmdclass  = {"build_ext": build_ext},
+    version = "0.1.2",
+    ext_modules = cythonize(extensions),
 )
