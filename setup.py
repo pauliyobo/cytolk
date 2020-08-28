@@ -31,5 +31,5 @@ setup(
     name = "cytolk",
     version = "0.1.1",
     cmdclass = {"build_ext": build_ext},
-    ext_modules = extensions
+    ext_modules = extensions,
 )
