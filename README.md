@@ -7,13 +7,7 @@ You can install cytolk with
 pip install cytolk
 ```
 ## building
-To successfully build, you will need to install cython
-
-```
-pip install cython
-```
-
-Also, make sure to clone this repository recursively, as this repository depends on the original tolk repo
+make sure to clone this repository recursively, as this repository depends on the original tolk repo
 
 ```
 git clone --recursive https://github.com/pauliyobo/cytolk
@@ -23,6 +17,20 @@ once that's done, to build use the following command
 
 ```
 python setup.py build_ext --inplace
+```
+
+Note: this will build the extension using the generated c code present in the repository.
+By doing so you are not required to have cython installed  in your machine.
+If you would like to build directly from the .pyx file, you will have to install cython
+
+```
+pip install cython
+```
+
+and set the environment variable BUILD_CYTOLK
+
+```
+set BUILD_CYTOLK=1
 ```
 
 ## Usage

@@ -11,6 +11,12 @@ def get_nvda_dll():
         return "nvdaControllerClient32.dll"
     return "nvdaControllerClient64.dll"
 
+# just a function to retrieve the readme data
+def get_readme():
+    with open("README.md") as f:
+        return f.read()
+
+
 # the source variable will have an extension appended to it dynamically
 # that way, we can just decide to build using the generated c code or using the .pyx file with ease
 source = "cytolk"
@@ -43,5 +49,6 @@ setup(
     name = "cytolk",
     cmdclass  = {"build_ext": build_ext},
     version = "0.1.2",
+    long_description = get_readme(),
     ext_modules = cythonize(extensions),
 )
