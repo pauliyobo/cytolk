@@ -12,10 +12,10 @@ def is_loaded():
     return cytolk.Tolk_IsLoaded()
 
 def detect_screen_reader():
-    sr = cytolk.Tolk_DetectScreenReader()
-    if not sr:
-        sr = "no screenreader detected"
-    return sr
+    cdef const wchar_t* sr = cytolk.Tolk_DetectScreenReader()
+    if sr == NULL:
+        return "no screenreader detected"
+    return str(sr, "utf-16")
 
 def try_sapi(try_sapi):
     cytolk.Tolk_TrySAPI(try_sapi)

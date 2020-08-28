@@ -21,7 +21,8 @@ extensions=[Extension(
 )]
 
 setup(
-	name = 'cytolk',
-	cmdclass = {'build_ext': build_ext},
-	ext_modules = extensions
+    name = "cytolk",
+    version = "0.1.0",
+    cmdclass = {"build_ext": build_ext},
+    ext_modules = extensions
 )

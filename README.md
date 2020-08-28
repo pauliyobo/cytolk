@@ -52,7 +52,3 @@ Tolk.braille("hello")
 # now that we're done with the library, we can ust unload it
 Tolk.unload()
 ```
-
-## Known issues
-For some reason, when calling the function detect_screen_reader(), if no library is present the library will just crash. I wasn't able to find a solution to this yet.
-If you find any other issue, or would like to send a PR, feel free to do so
