@@ -1,4 +1,5 @@
 # cython: language_level=3
+# distutils: language="c++"
 cimport cytolk
 
 
@@ -15,7 +16,7 @@ def detect_screen_reader():
     cdef const wchar_t* sr = cytolk.Tolk_DetectScreenReader()
     if sr == NULL:
         return None
-    return str(sr, "utf-16")
+    return sr
 
 def try_sapi(try_sapi):
     cytolk.Tolk_TrySAPI(try_sapi)
