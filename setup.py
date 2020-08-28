@@ -1,7 +1,14 @@
 import glob
+import platform
+
 from setuptools import setup, Extension
 from Cython.Distutils import build_ext
  
+def get_nvda_dll():
+    if "32" in platform.architecture()[0]:
+        return "nvdaControllerClient32.dll"
+    return "nvdaControllerClient64.dll"
+
 glob_files = glob.glob("tolk/src/*.cpp")
 glob_files.extend(glob.glob("tolk/src/*.c"))
 sources = ["cytolk.pyx"]+glob_files
@@ -22,7 +29,7 @@ extensions=[Extension(
 
 setup(
     name = "cytolk",
-    version = "0.1.0",
+    version = "0.1.1",
     cmdclass = {"build_ext": build_ext},
     ext_modules = extensions
 )
