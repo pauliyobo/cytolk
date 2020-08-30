@@ -2,7 +2,7 @@
 # distutils: language="c++"
 from libcpp cimport bool
 
-cdef extern from "tolk/src/Tolk.h":
+cdef extern from "../tolk/src/Tolk.h":
     ctypedef Py_UNICODE wchar_t
 
     cdef void Tolk_Load()
