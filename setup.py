@@ -34,9 +34,9 @@ glob_files.extend(glob.glob("tolk/src/*.c"))
 sources = [source]+glob_files
 
 macros = [
-	('UNICODE', "1"),
-	('_WIN32', None),
-	('_EXPORTING', None),
+    ('UNICODE', "1"),
+    ('_WIN32', None),
+    ('_EXPORTING', None),
 ]
 
 extensions=[Extension(
