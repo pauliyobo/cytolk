@@ -1,5 +1,6 @@
 import glob
 import os
+import pathlib
 import platform
 import site
 
@@ -50,7 +51,8 @@ extensions=[Extension(
 setup(
     name = "cytolk",
     cmdclass  = {"build_ext": build_ext},
-    version = "0.1.2",
+    version = "0.1.3",
+    description = "A cython wrapper over the tolk library",
     long_description_content_type='text/markdown', 
     long_description = get_readme(),
     ext_modules = cythonize(extensions),
