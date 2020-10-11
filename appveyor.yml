@@ -13,13 +13,15 @@ environment:
 
   - CI_ARCHITECTURE: 64
 
+install:
+ - git submodule update --init --recursive
+
 build_script:
 - ps: .\ci\build_python.ps1
 - ps: './ci/release.ps1'
 
 artifacts:
 - path: dist\*
-
 
 deploy:
   - provider: GitHub
