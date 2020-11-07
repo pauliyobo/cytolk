@@ -3,6 +3,7 @@ import os
 from pathlib import Path
 import platform
 import shutil
+import sys
 
 
 from setuptools import setup, Extension
@@ -47,8 +48,9 @@ extensions=[Extension(
 )]
 
 print("copying DLLS")
-arch = "x86" if "32" in platform.architecture()[0] else "x64"
-shutil.copytree(f"tolk/libs/{arch}", "cytolk", dirs_exist_ok=True) 
+libs = Path("tolk/libs") / ("x86" if "32" in platform.architecture()[0] else "x64")
+for lib in libs.glob("*.dll"):
+    shutil.copy(str(lib), "cytolk")
 
 setup(
     name = "cytolk",
