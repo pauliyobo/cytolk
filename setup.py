@@ -3,17 +3,12 @@ import os
 from pathlib import Path
 import platform
 import shutil
-import sys
 
 
-from setuptools import setup, Extension
+from setuptools import setup, Extension, find_packages
 from Cython.Build import cythonize
 from Cython.Distutils import build_ext
  
-def get_dlls():
-    print(f"dir: {os.getcwd()}")
-    return glob.glob("cytolk/*.dll")
-
 # just a function to retrieve the readme data
 def get_readme():
     with open("README.md") as f:
@@ -52,7 +47,8 @@ print("copying DLLS")
 libs = Path("tolk/libs") / ("x86" if "32" in platform.architecture()[0] else "x64")
 for lib in libs.glob("*.dll"):
     shutil.copy(str(lib), "cytolk")
-    print(f"copied {lib.name} to cytolk")
+    print(f"copied {lib.name}")
+
 
 setup(
     name = "cytolk",
@@ -62,9 +58,9 @@ setup(
     long_description_content_type='text/markdown', 
     long_description = get_readme(),
     ext_modules = cythonize(extensions),
-    packages = ["cytolk"],
+    packages = find_packages(),
     package_data = {
-        "cytolk": get_dlls(),
+        "": ["*.dll"],
     },
     entry_points = {
         "console_scripts":  [
@@ -77,4 +73,4 @@ dll_glob = glob.glob("cytolk/*.dll")
 print("cleaning dlls")
 for dll in dll_glob:
     os.remove(dll)
-    print(f"removed {dll} from the cytolk directory")
+    print(f"removed {dll}")
