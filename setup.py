@@ -1,18 +1,16 @@
 import glob
 import os
-import pathlib
+from pathlib import Path
 import platform
-import site
+import shutil
 
 
 from setuptools import setup, Extension
 from Cython.Build import cythonize
 from Cython.Distutils import build_ext
  
-def get_nvda_dll():
-    if "32" in platform.architecture()[0]:
-        return "nvdaControllerClient32.dll"
-    return "nvdaControllerClient64.dll"
+def get_dlls():
+    return glob.glob("*.dll")
 
 # just a function to retrieve the readme data
 def get_readme():
@@ -48,17 +46,21 @@ extensions=[Extension(
     libraries = "User32 Ole32 OleAut32".split(" "),
 )]
 
+print("copying DLLS")
+arch = "x86" if "32" in platform.architecture()[0] else "x64"
+shutil.copytree(f"tolk/libs/{arch}", "cytolk", dirs_exist_ok=True) 
+
 setup(
     name = "cytolk",
     cmdclass  = {"build_ext": build_ext},
-    version = "0.1.3",
+    version = "0.1.4",
     description = "A cython wrapper over the tolk library",
     long_description_content_type='text/markdown', 
     long_description = get_readme(),
     ext_modules = cythonize(extensions),
     packages = ["cytolk"],
     package_data = {
-        "cytolk": [get_nvda_dll()],
+        "cytolk": get_dlls(),
     },
     entry_points = {
         "console_scripts":  [
@@ -66,3 +68,8 @@ setup(
         ]
     }
 )
+
+dll_glob = glob.glob("cytolk/*.dll")
+print("cleaning dlls")
+for dll in dll_glob:
+    os.remove(dll)
