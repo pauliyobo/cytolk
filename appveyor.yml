@@ -2,7 +2,7 @@ version: 1.0.{build}
 image: Visual Studio 2019
 
 matrix:
-  fast_finish: true
+  fast_finish: false
 
 environment:
  BUILD_CYTOLK: 1
