@@ -51,6 +51,7 @@ print("copying DLLS")
 libs = Path("tolk/libs") / ("x86" if "32" in platform.architecture()[0] else "x64")
 for lib in libs.glob("*.dll"):
     shutil.copy(str(lib), "cytolk")
+    print(f"copied {lib.name} to cytolk")
 
 setup(
     name = "cytolk",
@@ -75,3 +76,4 @@ dll_glob = glob.glob("cytolk/*.dll")
 print("cleaning dlls")
 for dll in dll_glob:
     os.remove(dll)
+    print(f"removed {dll} from the cytolk directory")
