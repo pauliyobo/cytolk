@@ -6,6 +6,7 @@ You can install cytolk with
 ```
 pip install cytolk
 ```
+
 ## building
 make sure to clone this repository recursively, as this repository depends on the original tolk repo
 
@@ -16,7 +17,13 @@ git clone --recursive https://github.com/pauliyobo/cytolk
 once that's done, to build use the following command
 
 ```
-python setup.py build_ext --inplace
+python setup.py bdist_wheel
+```
+
+Once that's done, you will find the wheel generated in your dist folder. To install it, simply do the following
+
+```
+pip install cytolk-0.1.4-cp39-cp39-win_amd64.whl
 ```
 
 Note: this will build the extension using the generated c code present in the repository.
@@ -65,10 +72,18 @@ tolk.unload()
 The library will not work if it can not interface to your current screen reader.
 Therefore, you must place the appropriate DLL that interfaces to your screen reader in your working directory. Cytolk comes  already packed with the NVDA DLLS, and to place them in your working directory you can simply run the command
 
+## Placing required DLLS
+Cytolk needs to find the required DLLS so that the wrapped c library can interface to your current screen reader. For this to work, the libraries ned to be placed in the directory where your program is running.
+Finding those libraries can be annoying some times, and so, the wheel you install already comes packaged with the libraries you will need based on your architecture. This means that if you are using a 32 bit version of python, the libraries you will find in the wheel you install will be only 32 bit.
+But how do we go about doing this? Easy.
+Cytolk provides also a command line interface, which allows you to just do that.
+What you are looking for is this:
+
 ```
 python -m cytolk --place_dll
 ```
 
+This command will just place the required libraries you will need in your current directory, avoiding you to have to copy them manually. Suggestion to make this process easier are welcome.
 ## Functions
 Note: some, if not all of the documentation, has been added following the already present documentation on the original tolk documentation, adapting it to the name of the functions present on this extension. 
 Should you be interested on more detailed documentation,  you will be able to find so in the original tolk repository.
