@@ -11,7 +11,7 @@ from Cython.Build import cythonize
 from Cython.Distutils import build_ext
  
 def get_dlls():
-    return glob.glob("*.dll")
+    return glob.glob("cytolk/*.dll")
 
 # just a function to retrieve the readme data
 def get_readme():
