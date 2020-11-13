@@ -1,13 +1,30 @@
 # cython: language_level=3
 # distutils: language="c++"
+
+import os
+from pathlib import Path
+
 from . cimport tolk
 
+# TODO: change the implementation to utilize os.add_dll_path for python versions above 3.8
+
+dir = str(Path(__file__).parent) + os.pathsep
+
+def add_dll_path():
+    """this function adds the dll directory in order to allow tolk to properly find the dlls it needs without having to place them manually."""   
+    os.environ['PATH'] = dir + os.environ['Path']
+
+def remove_dll_path():
+    # forgive me for the really really not elegant way
+    os.environ['PATH'] = os.environ['PATH'].replace(dir, "")
 
 def load():
+    add_dll_path()
     tolk.Tolk_Load()
 
 def unload():
     tolk.Tolk_Unload()
+    remove_dll_path()
 
 def is_loaded():
     return tolk.Tolk_IsLoaded()
