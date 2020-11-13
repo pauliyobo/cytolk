@@ -73,6 +73,7 @@ The library will not work if it can not interface to your current screen reader.
 Therefore, you must place the appropriate DLL that interfaces to your screen reader in your working directory. Cytolk comes  already packed with the NVDA DLLS, and to place them in your working directory you can simply run the command
 
 ## Placing required DLLS
+Note: as of cytolk 0.1.6 placing the DLLS is no longer required, as the library automatically modifies the search path to detect the DLLS that are packaged with the extension it's self
 Cytolk needs to find the required DLLS so that the wrapped c library can interface to your current screen reader. For this to work, the libraries ned to be placed in the directory where your program is running.
 Finding those libraries can be annoying some times, and so, the wheel you install already comes packaged with the libraries you will need based on your architecture. This means that if you are using a 32 bit version of python, the libraries you will find in the wheel you install will be only 32 bit.
 But how do we go about doing this? Easy.
