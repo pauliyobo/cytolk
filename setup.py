@@ -53,7 +53,7 @@ for lib in libs.glob("*.dll"):
 setup(
     name = "cytolk",
     cmdclass  = {"build_ext": build_ext},
-    version = "0.1.5",
+    version = "0.1.6",
     description = "A cython wrapper over the tolk library",
     long_description_content_type='text/markdown', 
     long_description = get_readme(),
