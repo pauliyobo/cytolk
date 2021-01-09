@@ -1,5 +1,5 @@
-from PyInstaller.utils.hooks import exec_statement
+from PyInstaller.utils.hooks import collect_dynamic_libs
 
 
 
-datas = exec_statement("from cytolk import  util;  util.collect_libraries()]
+binaries = collect_dynamic_libs("cytolk")
