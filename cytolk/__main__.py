@@ -2,16 +2,8 @@ import argparse
 import glob
 import os
 from pathlib import Path
-import shutil
 
-src = Path(__file__).parent
-
-def copy_dlls(dest, verbose=False):
-    libs = src.glob("*.dll")
-    for lib in libs:
-        shutil.copy(str(lib), str(dest))
-        if verbose:
-            print(f"copied {lib.name}")
+from .util import copy_dlls
 
 def cli():
     parser = argparse.ArgumentParser()
