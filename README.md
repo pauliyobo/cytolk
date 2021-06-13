@@ -20,12 +20,13 @@ once that's done, to build use the following command
 python setup.py bdist_wheel
 ```
 
-Once that's done, you will find the wheel generated in your dist folder. To install it, simply do the following
+You will then find the wheel generated in your dist folder. To install it, simply do the following
 
 ```
-pip install cytolk-0.1.4-cp39-cp39-win_amd64.whl
+pip install cytolk-<version number>-<python dist>.whl
 ```
 
+Where version number is the version you're installing, such as 0.1.6, and python dist is the python distribution you're using such as cp39-cp39-win_amd64
 Note: this will build the extension using the generated c code present in the repository.
 By doing so you are not required to have cython installed  in your machine.
 If you would like to build directly from the .pyx file, you will have to install cython
@@ -90,7 +91,7 @@ Note: some, if not all of the documentation, has been added following the alread
 Should you be interested on more detailed documentation,  you will be able to find so in the original tolk repository.
 ### tolk.load()
 Initializes the  tolk library and sets the current screenreader driver, assuming that it's present in the list of supported  screenreaders. All the functions to interact with the screenreader driver  must be used after tolk is initialized. to verify whether tolk is initialized, call tolk.is_loaded()
-### tolk.is_loaded()
+### tolk.is_loaded() -> bool
 Verifies whether tolk has been initialized
 ### tolk.unload()
 deinitializes tolk.
