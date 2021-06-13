@@ -4,3 +4,4 @@ dist/
 venv/
 *.py[cod]
 *.dll
+*.bat
