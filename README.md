@@ -26,7 +26,7 @@ You will then find the wheel generated in your dist folder. To install it, simpl
 pip install cytolk-<version number>-<python dist>.whl
 ```
 
-Where version number is the version you're installing, such as 0.1.6, and python dist is the python distribution you're using such as cp39-cp39-win_amd64
+Where version number is the version you're installing, such as 0.1.6, and python dist is the python distribution you're using such as cp39-cp39-win_amd64.
 Note: this will build the extension using the generated c code present in the repository.
 By doing so you are not required to have cython installed  in your machine.
 If you would like to build directly from the .pyx file, you will have to install cython
