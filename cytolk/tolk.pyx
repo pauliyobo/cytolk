@@ -40,13 +40,13 @@ def remove_dll_path():
     os.environ['PATH'] = os.environ['PATH'].replace(dir, "")
 
 
-def load():
+def load() -> None:
     if not is_loaded():
         add_dll_path()
         tolk.Tolk_Load()
 
 
-def unload():
+def unload() -> None:
     if is_loaded():
         tolk.Tolk_Unload()
         remove_dll_path()
@@ -55,6 +55,7 @@ def is_loaded() -> bool:
     return tolk.Tolk_IsLoaded()
 
 
+@check_if_loaded
 def detect_screen_reader()-> Optional[str]:
     cdef const wchar_t* sr = tolk.Tolk_DetectScreenReader()
     if sr == NULL:
@@ -62,7 +63,7 @@ def detect_screen_reader()-> Optional[str]:
     return sr
 
 
-def try_sapi(try_sapi: bool):
+def try_sapi(try_sapi: bool) -> None:
     tolk.Tolk_TrySAPI(try_sapi)
 
 
@@ -74,25 +75,31 @@ def output(text: str, interrupt: bool=False) -> bool:
     return tolk.Tolk_Output(text, interrupt)
 
 
+@check_if_loaded
 def speak(text: str, interrupt: bool=False) -> bool:
     return tolk.Tolk_Speak(text, interrupt)
 
 
-def braille(text: str):
+@check_if_loaded
+def braille(text: str) -> bool:
     return tolk.Tolk_Braille(text)
 
 
+@check_if_loaded
 def has_speech() -> bool:
     return tolk.Tolk_HasSpeech()
 
 
+@check_if_loaded
 def has_braille() -> bool:
     return tolk.Tolk_HasBraille()
 
 
+@check_if_loaded
 def is_speaking() -> bool:
     return tolk.Tolk_IsSpeaking()
 
 
+@check_if_loaded
 def silence() -> bool:
     return tolk.Tolk_Silence()
