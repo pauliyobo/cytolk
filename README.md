@@ -89,8 +89,8 @@ python -m cytolk --place_dll
 This command will just place the required libraries you will need in your current directory, avoiding you to have to copy them manually. Suggestion to make this process easier are welcome.
 ## Functions
 Note: some, if not all of the documentation, has been added following the already present documentation on the original tolk documentation, adapting it to the name of the functions present on this extension. 
-Should you be interested on more detailed documentation,  you will be able to find so in the original tolk repository.
-Second note: in version 0.1.7, calling functions will raise an exception if cytolk hasn't been loaded. only exceptions are
+Should you be interested on more detailed documentation,  you will be able to find so in the original tolk repository.  
+Second note: in version 0.1.7, calling functions will raise an exception if cytolk hasn't been loaded.  The only functions which are not subject to this are 
 * tolk.load()
 * tolk.is_loaded()
 * tolk.unload()
