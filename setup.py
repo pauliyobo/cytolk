@@ -72,4 +72,4 @@ dll_glob = glob.glob("cytolk/*.dll")
 print("cleaning dlls")
 for dll in dll_glob:
     os.remove(dll)
-    print(f"removed {dll}")
+    print(f"{dll} removed")
