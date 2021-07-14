@@ -1,6 +1,7 @@
 # cython: language_level=3
 # distutils: language="c++"
 
+from contextlib import contextmanager
 from functools import wraps
 import os
 from pathlib import Path
@@ -15,6 +16,16 @@ dir: str = str(Path(__file__).parent) + os.pathsep
 
 class TolkNotLoadedError(BaseException):
     pass
+
+@contextmanager
+def tolk():
+    load()
+    try:
+        yield
+    except BaseException as e:
+        raise e
+    finally:
+        unload()
 
 
 def check_if_loaded(fn):
