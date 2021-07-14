@@ -1,4 +1,4 @@
-# cytolk
+# Cytolk
 A cython wrapper over the tolk library.
 ## Installation
 You can install cytolk with
@@ -7,7 +7,7 @@ You can install cytolk with
 pip install cytolk
 ```
 
-## building
+## Building from source
 make sure to clone this repository recursively, as this repository depends on the original tolk repo
 
 ```
@@ -29,44 +29,45 @@ pip install cytolk-<version number>-<python dist>.whl
 Where version number is the version you're installing, such as 0.1.6, and python dist is the python distribution you're using such as cp39-cp39-win_amd64.
 Note: this will build the extension using the generated c code present in the repository.
 By doing so you are not required to have cython installed  in your machine.
-If you would like to build directly from the .pyx file, you will have to install cython
+If you would like to build directly from the .pyx file, you will have to install the requirements which as of now are only cython and setuptools
 
 ```
-pip install cython
+pip install -r requirements.txt
 ```
 
-and set the environment variable BUILD_CYTOLK
+And set the environment variable BUILD_CYTOLK
 
 ```
 set BUILD_CYTOLK=1
 ```
 
 ## Usage
-The API is fully compatible with the python tolk bindings, therefore, transitioning should be straight forward
+As of 0.1.7 it is now possible to use a context manager to utilize tolk's functionality. Using tolk.load() and tolk.unload() is still possible, but not preferred.
 
 ```python
+# This  example makes use of tolk's context manager
+# The old example can be found in the examples directory in the file named tolk_example.py
+# They are exactly the same, only difference being that the old one does not use the context manager
+
 from cytolk import tolk
 
-# load the library
-tolk.load()
+# No need to load or unload anything, let the manager handle it for us
+with tolk.tolk():
+    # detect the screenreader in use, in my case NVDA
+    print(f"screenreader detected is {tolk.detect_screen_reader()}")
 
-# detect the screenreader in use, in my case NVDA
-print(f"screenreader detected is {tolk.detect_screen_reader()}")
+    # does this screenreader suport  speech and braille?
+    if tolk.has_speech():
+        print("this screenreader supports speech")
+    if tolk.has_braille():
+        print("this screenreader supports braille")
 
-# does this screenreader suport  speech and braille?
-if tolk.has_speech():
-    print("this screenreader supports speech")
-if tolk.has_braille():
-    print("this screenreader supports braille")
+    # let's speak some text
+    tolk.speak("hello")
 
-# let's speak some text
-tolk.speak("hello")
+    # good, let's now output some text on the braille display, if any in use
+    tolk.braille("hello")
 
-# good, let's now output some text on the braille display, if any in use
-tolk.braille("hello")
-
-# now that we're done with the library, we can ust unload it
-tolk.unload()
 ```
 
 ### Note
@@ -89,6 +90,10 @@ This command will just place the required libraries you will need in your curren
 ## Functions
 Note: some, if not all of the documentation, has been added following the already present documentation on the original tolk documentation, adapting it to the name of the functions present on this extension. 
 Should you be interested on more detailed documentation,  you will be able to find so in the original tolk repository.
+Second note: in version 0.1.7, calling functions will raise an exception if cytolk hasn't been loaded. only exceptions are
+* tolk.load()
+* tolk.is_loaded()
+* tolk.unload()
 ### tolk.load()
 Initializes the  tolk library and sets the current screenreader driver, assuming that it's present in the list of supported  screenreaders. All the functions to interact with the screenreader driver  must be used after tolk is initialized. to verify whether tolk is initialized, call tolk.is_loaded()
 ### tolk.is_loaded() -> bool
