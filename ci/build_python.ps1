@@ -25,7 +25,7 @@ is nonzero.
 }
 
 
-$pyversions = "python39", "python38", "python37", "python36"
+$pyversions = "python310", "python39", "python38", "python37", "python36"
 
 foreach ($pyversion in $pyversions) {
 	$pysuffix = ""
