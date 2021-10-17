@@ -25,15 +25,5 @@ is nonzero.
 }
 
 
-$pyversions = "python310", "python39", "python38", "python37", "python36"
-
-foreach ($pyversion in $pyversions) {
-	$pysuffix = ""
-	if ($Env:CI_ARCHITECTURE -eq "64") {
-		$pysuffix = "-x64"
-	}
-	$pycommand = "c:\$pyversion$pysuffix\python.exe"
-	invoke-utility $pycommand -m pip install cython setuptools wheel
-	invoke-utility $pycommand setup.py bdist_wheel
-}
-
+invoke-utility py -$Env:PYVERSION-$Env:CI_ARCH -m pip install cython setuptools wheel
+invoke-utility py -$Env:PYVERSION-$Env:CI_ARCH setup.py bdist_wheel
