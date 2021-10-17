@@ -53,7 +53,7 @@ jobs:
     strategy:
       fail-fast: true
       max-parallel: 1
-            matrix:
+      matrix:
         ARTIFACT:
           - cytolk-py3.10-x86
           - cytolk-py3.10-x64
