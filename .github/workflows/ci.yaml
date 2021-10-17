@@ -36,7 +36,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: ${{matrix.ARTIFACT}}
-          path: ~/dist
+          path: /dist
       - name: upload to test pypi
         uses: pypa/gh-action-pypi-publish@master
         with:
