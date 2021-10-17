@@ -2,7 +2,7 @@ on:
   push: {}
 
 jobs:
-  build:
+  build x86:
     runs-on: windows-2019
     env:
       CI_ARCH: ${{ matrix.CI_ARCH }}
@@ -25,5 +25,31 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        CI_ARCH: ["32", "64"]
-        PYVERSION: ["3.9", "3.9", "3.8", "3.7", "3.6"]
+        CI_ARCH: ["32"]
+        PYVERSION: ["3.9", "3.8", "3.7", "3.6"]
+
+  build x64:
+    runs-on: windows-2019
+    env:
+      CI_ARCH: ${{ matrix.CI_ARCH }}
+      PYVERSION: ${{matrix.PYVERSION}}
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+      - name: build wheels
+        shell: powershell
+        run: |
+          set-location $Env:GITHUB_WORKSPACE
+          ./ci\build_python.ps1
+      - name: upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: cytolk-win${{matrix.CI_ARCH}}-${{matrix.PYVERSION}}
+          path: dist/*
+    strategy:
+      fail-fast: true
+      matrix:
+        CI_ARCH: ["64"]
+        PYVERSION: ["3.10", "3.9", "3.8", "3.7", "3.6"]
