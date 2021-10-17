@@ -35,8 +35,8 @@ jobs:
       - name: download artifact
         uses: actions/download-artifact@v2
         with:
-          # name: ${{matrix.ARTIFACT}}
-          path: ~/artifacts
+          name: ${{matrix.ARTIFACT}}
+          path: ~/dist
       - name: upload to test pypi
         uses: pypa/gh-action-pypi-publish@master
         with:
@@ -53,3 +53,15 @@ jobs:
     strategy:
       fail-fast: true
       max-parallel: 1
+            matrix:
+        ARTIFACT:
+          - cytolk-py3.10-x86
+          - cytolk-py3.10-x64
+          - cytolk-py3.9-x86
+          - cytolk-py3.9-x64
+          - cytolk-py3.8-x86
+          - cytolk-py3.8-x64
+          - cytolk-py3.7-x86
+          - cytolk-py3.7-x64
+          - cytolk-py3.6-x86
+          - cytolk-py3.6-x64
