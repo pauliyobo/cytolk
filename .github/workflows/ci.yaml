@@ -26,4 +26,4 @@ jobs:
       fail-fast: true
       matrix:
         CI_ARCH: ["32", "64"]
-        PYVERSION: ["3.10", "3.9", "3.8", "3.7", "3.6"]
+        PYVERSION: ["3.9", "3.9", "3.8", "3.7", "3.6"]
