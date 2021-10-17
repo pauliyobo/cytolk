@@ -9,7 +9,7 @@ jobs:
       PYVERSION: ${{matrix.PYVERSION}}
     steps:
       - name: checkout
-        uses: actions/checout@v2
+        uses: actions/checkout@v2
         with:
           submodules: true
       - name: build wheels
