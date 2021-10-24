@@ -37,9 +37,7 @@ jobs:
           name: ${{matrix.ARTIFACT}}
           path: ~/artifacts
       - shell: bash
-        run |
-          cd /home/runner/artifacts
-          ls
+        run: cd /home/runner/artifacts && ls
       - name: upload to test pypi
         uses: pypa/gh-action-pypi-publish@master
         with:
