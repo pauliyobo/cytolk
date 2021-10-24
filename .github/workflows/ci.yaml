@@ -41,7 +41,7 @@ jobs:
         with:
           password: ${{secrets.TEST_PYPI_TOKEN}}
           repository_url: https://test.pypi.org/legacy/
-          packages_dir: /home/runner/artifacts/
+          packages_dir: /home/runner/artifacts/${{ matrix.ARTIFACT}}/*
       - name: Upload to Pypi
         if: startsWith(github.ref, 'refs/tags') && !github.event_type != 'pull_request'    
         env:
