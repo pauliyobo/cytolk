@@ -5,21 +5,24 @@ from contextlib import contextmanager
 from functools import wraps
 import os
 from pathlib import Path
+import sys
 from typing import Optional
 
 from . cimport tolk
 
-# TODO: change the implementation to utilize os.add_dll_path for python versions above 3.8
 
-dir: str = str(Path(__file__).parent) + os.pathsep
-
+try:
+    dir: Optional[str] = str(Path(__file__).parent) + os.pathsep
+except TypeError:
+    # When using libraries like nuitka to link cytolk to the executable we do not have access to __file__ due to the fact that cytolk is a c extension
+    dir = None
 
 class TolkNotLoadedError(BaseException):
     pass
 
 @contextmanager
-def tolk():
-    load()
+def tolk(extended_search_path: bool = True):
+    load(extended_search_path)
     try:
         yield
     except BaseException as e:
@@ -42,7 +45,9 @@ def check_if_loaded(fn):
 
 
 def add_dll_path():
-    """this function adds the dll directory in order to allow tolk to properly find the dlls it needs without having to place them manually."""   
+    """
+    this function adds the dll directory in order to allow tolk to properly find the dlls it needs without having to place them manually.
+    """   
     os.environ['PATH'] = dir + os.environ['Path']
 
 
@@ -51,16 +56,21 @@ def remove_dll_path():
     os.environ['PATH'] = os.environ['PATH'].replace(dir, "")
 
 
-def load() -> None:
+def load(extended_search_path: bool = True) -> None:
     if not is_loaded():
-        add_dll_path()
+        if extended_search_path:
+            if dir is not None:
+                add_dll_path()
+            else:
+                raise RuntimeError("Could not determine cytolk's current location.\n\nIf you are using nuitka set `extended_search_path` to False and use the plugin instead.")
         tolk.Tolk_Load()
 
 
 def unload() -> None:
     if is_loaded():
         tolk.Tolk_Unload()
-        remove_dll_path()
+        if dir is not None:
+            remove_dll_path()
 
 def is_loaded() -> bool:
     return tolk.Tolk_IsLoaded()
