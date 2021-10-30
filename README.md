@@ -14,19 +14,12 @@ make sure to clone this repository recursively, as this repository depends on th
 git clone --recursive https://github.com/pauliyobo/cytolk
 ```
 
-once that's done, to build use the following command
+Then run 
 
 ```
-python setup.py bdist_wheel
+python setup.py install
 ```
 
-You will then find the wheel generated in your dist folder. To install it, simply do the following
-
-```
-pip install cytolk-<version number>-<python dist>.whl
-```
-
-Where version number is the version you're installing, such as 0.1.6, and python dist is the python distribution you're using such as cp39-cp39-win_amd64.
 Note: this will build the extension using the generated c code present in the repository.
 By doing so you are not required to have cython installed  in your machine.
 If you would like to build directly from the .pyx file, you will have to install the requirements which as of now are only cython and setuptools
@@ -94,41 +87,40 @@ Second note: in version 0.1.7, calling functions will raise an exception if cyto
 * tolk.load()
 * tolk.is_loaded()
 * tolk.unload()
-### tolk.load()
+### tolk.load(extended_search_path: bool)
 Initializes the  tolk library and sets the current screenreader driver, assuming that it's present in the list of supported  screenreaders. All the functions to interact with the screenreader driver  must be used after tolk is initialized. to verify whether tolk is initialized, call tolk.is_loaded()
+args:
+* extended_search_path: allows you to decide whether the library should load trying to automatically detect the DLL libraries it depends on or not. Defaults to True.  
+Note: this same argument can be used in the context manager
 ### tolk.is_loaded() -> bool
 Verifies whether tolk has been initialized
 ### tolk.unload()
 deinitializes tolk.
-### tolk.try_sapi(try_sapi)
+### tolk.try_sapi(try_sapi: bool)
 Sets if Microsoft Speech API (SAPI) should be used in the screen reader auto-detection process. The function should be called before tolk is initialized
-args:
-* try_sapi (bool)
-### tolk.prefer_sapi(prefer_sapi)
+### tolk.prefer_sapi(prefer_sapi: bool)
 If auto-detection for SAPI has been turned on through tolk.try_sapi, sets if SAPI should be placed first (true) or last (false) in the screen reader detection list. Putting it last is the default and is good for using SAPI as a fallback option. Putting it first is good for ensuring SAPI is used even when a screen reader is running, but keep in mind screen readers will still be tried if SAPI is unavailable. This function triggers the screen reader detection process if needed. this function can be called before tolk is initialized
-args:
-* prefer_sapi (bool)
-### tolk.detect_screen_reader()
+### tolk.detect_screen_reader() -> Optional[str]
 Returns the common name for the currently active screen reader driver, if one is set. If none is set, tries to detect the currently active screen reader before looking up the name. If no screen reader is active, None is returned. tolk.load must be called before using this function.
-### tolk.has_speech()
+### tolk.has_speech() -> bool
 Returns true if the current screen reader driver supports speech output. This function must be called after tolk is initialized.
-### tolk.has_braille()
+### tolk.has_braille() -> bool
 Returns true if the current screen reader  driver supports braille output. This function must be called after tolk is initialized.
-### tolk.output(text,  interrupt)
+### tolk.output(text: str,  interrupt: bool = False) -> bool
 Outputs text through the current screen reader driver. Tolk.output uses both speech and braille if supported. Returns True on success False if otherwise. This function must be called after tolk is initialized.
 args:
-* text (str) the text to output
-* interrupt (bool)  interrupts any previous speech.
-### tolk.speak(text, interrupt)
+* text: the text to output
+* interrupt:  interrupts any previous speech.
+### tolk.speak(text: str, interrupt: bool = False) -< bool
 speaks the text through the current screen reader driver. Returns True on success False if otherwise. This function must be called after tolk is initialized.
 args:
-* text (str) the text to speak
-* interrupt (bool)  interrupts any previous speech.
-### tolk.braille(text)
+* text: the text to speak
+* interrupt:  interrupts any previous speech.
+### tolk.braille(text: str) -> bool
 Brailles text through the current screen reader driver. Returns True on success False if otherwise. This function must be called after tolk is initialized.
 args:
 * text (str) text to braille
-### tolk.is_speaking()
+### tolk.is_speaking() -> bool
 Returns True if the current  screen reader driver is speaking. This function must be called after tolk is initialized.
-### tolk.silence()
+### tolk.silence() -> bool
 Silences the current screen reader driver. Returns True on success False if otherwise. This function must be called after tolk is initialized.
