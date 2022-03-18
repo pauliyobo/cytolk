@@ -60,5 +60,3 @@ jobs:
           - cytolk-py3.8-x86
           - cytolk-py3.7-x64
           - cytolk-py3.7-x86
-          - cytolk-py3.6-x64
-          - cytolk-py3.6-x86
