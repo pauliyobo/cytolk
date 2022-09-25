@@ -21,7 +21,7 @@ python setup.py install
 ```
 
 Note: this will build the extension using the generated c code present in the repository.
-By doing so you are not required to have cython installed  in your machine.
+By doing so you are not required to have cython installed  on your machine.
 If you would like to build directly from the .pyx file, you will have to install the requirements which as of now are only cython and setuptools
 
 ```
@@ -35,7 +35,7 @@ set BUILD_CYTOLK=1
 ```
 
 ## Usage
-As of 0.1.7 it is now possible to use a context manager to utilize tolk's functionality. Using tolk.load() and tolk.unload() is still possible, but not preferred.
+As of 0.1.7 it is now possible to use a context manager to utilize tolk's functionality. Using tolk.load() and tolk.unload() is still possible.
 
 ```python
 # This  example makes use of tolk's context manager
@@ -65,11 +65,11 @@ with tolk.tolk():
 
 ### Note
 The library will not work if it can not interface to your current screen reader.
-Therefore, you must place the appropriate DLL that interfaces to your screen reader in your working directory. Cytolk comes  already packed with the NVDA DLLS, and to place them in your working directory you can simply run the command
+Therefore, you must place the appropriate DLL that interfaces to your screen reader in your working directory. Cytolk comes  already packed with the NVDA DLLs.  
 
-## Placing required DLLS
-Note: as of cytolk 0.1.6 placing the DLLS is no longer required, as the library automatically modifies the search path to detect the DLLS that are packaged with the extension it's self
-Cytolk needs to find the required DLLS so that the wrapped c library can interface to your current screen reader. For this to work, the libraries ned to be placed in the directory where your program is running.
+## Placing required DLLs
+Note: as of cytolk 0.1.6 placing the DLLs is no longer required, as the library automatically modifies the search path to detect the DLLs that are packaged with the extension itself
+Cytolk needs to find the required DLLs so that the wrapped c library can interface to your current screen reader. For this to work, the libraries need to be placed in the directory where your program is running.
 Finding those libraries can be annoying some times, and so, the wheel you install already comes packaged with the libraries you will need based on your architecture. This means that if you are using a 32 bit version of python, the libraries you will find in the wheel you install will be only 32 bit.
 But how do we go about doing this? Easy.
 Cytolk provides also a command line interface, which allows you to just do that.
@@ -109,7 +109,7 @@ Second note: in version 0.1.7, calling functions will raise an exception if cyto
 * `tolk.load`
 * `tolk.is_loaded`
 * `tolk.unload`
-* `tolk.try?sapi`
+* `tolk.try_sapi`
 * `tolk.prefer_sapi`
 ### tolk.load(extended_search_path: bool)
 Initializes the  tolk library and sets the current screenreader driver, assuming that it's present in the list of supported  screenreaders. All the functions to interact with the screenreader driver  must be used after tolk is initialized. to verify whether tolk is initialized, call `tolk.is_loaded()`  
