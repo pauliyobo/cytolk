@@ -27,7 +27,7 @@ jobs:
       fail-fast: true
       matrix:
         CI_ARCH: ["x86", "x64"]
-        PYVERSION: ["3.10", "3.9", "3.8", "3.7"]
+        PYVERSION: ["3.11", "3.10", "3.9", "3.8", "3.7"]
 
   deploy:
     needs: ["build"]
@@ -52,6 +52,8 @@ jobs:
       max-parallel: 1
       matrix:
         ARTIFACT:
+          - cytolk-py3.11-x64
+          - cytolk-py3.11-x86
           - cytolk-py3.10-x64
           - cytolk-py3.10-x86
           - cytolk-py3.9-x64
