@@ -9,17 +9,17 @@ jobs:
       BUILD_CYTOLK: "1"
     steps:
       - name: checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           submodules: true
       - name: get python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.PYVERSION}}
           architecture: ${{ matrix.CI_ARCH }}
       - run: pip install cython setuptools wheel && python setup.py bdist_wheel
       - name: upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: cytolk-py${{matrix.PYVERSION}}-${{matrix.CI_ARCH}}
           path: dist/*
@@ -27,13 +27,13 @@ jobs:
       fail-fast: true
       matrix:
         CI_ARCH: ["x86", "x64"]
-        PYVERSION: ["3.11", "3.10", "3.9", "3.8", "3.7"]
+        PYVERSION: ["3.11", "3.10", "3.9", "3.8"]
 
   deploy:
     needs: ["build"]
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v3
         with:
           name: ${{matrix.ARTIFACT}}
           path: ~/artifacts
@@ -60,5 +60,3 @@ jobs:
           - cytolk-py3.9-x86
           - cytolk-py3.8-x64
           - cytolk-py3.8-x86
-          - cytolk-py3.7-x64
-          - cytolk-py3.7-x86
