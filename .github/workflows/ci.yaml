@@ -47,10 +47,11 @@ jobs:
         run: |
           echo ${{ github.ref_name }}
           sudo pip3 install twine
-          twine upload /home/runner/artifacts/*
+          twine upload /home/runner/artifacts/**/*.whl
       - name: Release on github
         if: startsWith(github.ref, 'refs/tags') && !github.event_type != 'pull_request'    
         uses: ncipollo/release-action@v1
         with:
           artifacts: "/home/runner/artifacts/**/*.whl"
           generateReleaseNotes: true
+          draft: true
