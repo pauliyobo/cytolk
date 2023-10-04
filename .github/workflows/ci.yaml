@@ -53,16 +53,3 @@ jobs:
         with:
           artifacts: "/home/runner/artifacts/**/*.whl"
           generateReleaseNotes: true
-    strategy:
-      fail-fast: true
-      max-parallel: 1
-      matrix:
-        ARTIFACT:
-          - cytolk-py3.11-x64
-          - cytolk-py3.11-x86
-          - cytolk-py3.10-x64
-          - cytolk-py3.10-x86
-          - cytolk-py3.9-x64
-          - cytolk-py3.9-x86
-          - cytolk-py3.8-x64
-          - cytolk-py3.8-x86
