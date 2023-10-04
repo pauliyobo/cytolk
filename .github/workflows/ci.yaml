@@ -45,6 +45,7 @@ jobs:
           TWINE_USERNAME: pauliyobo
           TWINE_PASSWORD: ${{secrets.TWINE_PASSWORD}}
         run: |
+          echo ${{ github.ref_name }}
           sudo pip3 install twine
           twine upload /home/runner/artifacts/*
       - name: Release on github
