@@ -27,7 +27,7 @@ jobs:
       fail-fast: true
       matrix:
         CI_ARCH: ["x86", "x64"]
-        PYVERSION: ["3.11", "3.10", "3.9", "3.8"]
+        PYVERSION: ["3.12", "3.11", "3.10", "3.9", "3.8"]
 
   deploy:
     needs: ["build"]
@@ -35,7 +35,6 @@ jobs:
     steps:
       - uses: actions/download-artifact@v3
         with:
-          # name: ${{matrix.ARTIFACT}}
           path: ~/artifacts
       - shell: bash
         run: cd /home/runner/artifacts && ls
@@ -45,7 +44,6 @@ jobs:
           TWINE_USERNAME: pauliyobo
           TWINE_PASSWORD: ${{secrets.TWINE_PASSWORD}}
         run: |
-          echo ${{ github.ref_name }}
           sudo pip3 install twine
           twine upload /home/runner/artifacts/**/*.whl
       - name: Release on github
