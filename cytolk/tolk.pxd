@@ -1,9 +1,9 @@
 # cython: language_level=3
 # distutils: language="c++"
 from libcpp cimport bool
+from libc.stddef cimport wchar_t
 
 cdef extern from "../tolk/src/Tolk.h":
-    ctypedef Py_UNICODE wchar_t
 
     cdef void Tolk_Load()
     cdef bool Tolk_IsLoaded()
