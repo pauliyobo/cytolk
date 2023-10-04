@@ -9,17 +9,17 @@ jobs:
       BUILD_CYTOLK: "1"
     steps:
       - name: checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           submodules: true
       - name: get python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.PYVERSION}}
           architecture: ${{ matrix.CI_ARCH }}
       - run: pip install cython setuptools wheel && python setup.py bdist_wheel
       - name: upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: cytolk-py${{matrix.PYVERSION}}-${{matrix.CI_ARCH}}
           path: dist/*
@@ -27,38 +27,31 @@ jobs:
       fail-fast: true
       matrix:
         CI_ARCH: ["x86", "x64"]
-        PYVERSION: ["3.11", "3.10", "3.9", "3.8", "3.7"]
+        PYVERSION: ["3.11", "3.10", "3.9", "3.8"]
 
   deploy:
     needs: ["build"]
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v3
         with:
-          name: ${{matrix.ARTIFACT}}
+          # name: ${{matrix.ARTIFACT}}
           path: ~/artifacts
       - shell: bash
         run: cd /home/runner/artifacts && ls
       - name: Upload to Pypi
-        if: startsWith(github.ref, 'refs/tags') && !github.event_type != 'pull_request'    
+        if: startsWith(github.ref, 'refs/tags') && !github.event_type != 'pull_request' && github.ref_name != 'test'
         env:
           TWINE_USERNAME: pauliyobo
           TWINE_PASSWORD: ${{secrets.TWINE_PASSWORD}}
         run: |
+          echo ${{ github.ref_name }}
           sudo pip3 install twine
-          twine upload /home/runner/artifacts/*
-    strategy:
-      fail-fast: true
-      max-parallel: 1
-      matrix:
-        ARTIFACT:
-          - cytolk-py3.11-x64
-          - cytolk-py3.11-x86
-          - cytolk-py3.10-x64
-          - cytolk-py3.10-x86
-          - cytolk-py3.9-x64
-          - cytolk-py3.9-x86
-          - cytolk-py3.8-x64
-          - cytolk-py3.8-x86
-          - cytolk-py3.7-x64
-          - cytolk-py3.7-x86
+          twine upload /home/runner/artifacts/**/*.whl
+      - name: Release on github
+        if: startsWith(github.ref, 'refs/tags') && !github.event_type != 'pull_request'    
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "/home/runner/artifacts/**/*.whl"
+          generateReleaseNotes: true
+          draft: true
