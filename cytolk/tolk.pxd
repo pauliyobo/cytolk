@@ -1,7 +1,17 @@
 # cython: language_level=3
 # distutils: language="c++"
+from cpython.ref cimport PyObject 
 from libcpp cimport bool
+from cpython.ref cimport PyObject 
 from libc.stddef cimport wchar_t
+
+
+cdef extern from "Python.h":
+    PyObject *PyUnicode_FromWideChar(wchar_t *w, Py_ssize_t size)
+    void PyMem_Free(void *p)
+    wchar_t *PyUnicode_AsWideCharString(PyObject *unicode, Py_ssize_t *size)
+
+
 
 cdef extern from "../tolk/src/Tolk.h":
 

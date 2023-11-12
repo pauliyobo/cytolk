@@ -78,10 +78,11 @@ def is_loaded() -> bool:
 
 @check_if_loaded
 def detect_screen_reader()-> Optional[str]:
-    cdef const wchar_t* sr = tolk.Tolk_DetectScreenReader()
-    if sr == NULL:
+    cdef const wchar_t* c_sr = tolk.Tolk_DetectScreenReader()
+    if c_sr == NULL:
         return None
-    return sr
+    cdef PyObject * sr = PyUnicode_FromWideChar(c_sr, -1)
+    return <object> sr
 
 
 def try_sapi(try_sapi: bool) -> None:
@@ -93,17 +94,26 @@ def prefer_sapi(prefer_sapi: bool):
 
 @check_if_loaded
 def output(text: str, interrupt: bool=False) -> bool:
-    return tolk.Tolk_Output(text, interrupt)
+    cdef wchar_t* txt = PyUnicode_AsWideCharString(<PyObject*> text, NULL)
+    ret =  tolk.Tolk_Output(txt, interrupt)
+    PyMem_Free(txt)
+    return ret
 
 
 @check_if_loaded
 def speak(text: str, interrupt: bool=False) -> bool:
-    return tolk.Tolk_Speak(text, interrupt)
+    cdef wchar_t* txt = PyUnicode_AsWideCharString(<PyObject*> text, NULL)
+    ret =  tolk.Tolk_Speak(txt, interrupt)
+    PyMem_Free(txt)
+    return ret
 
 
 @check_if_loaded
 def braille(text: str) -> bool:
-    return tolk.Tolk_Braille(text)
+    cdef wchar_t* txt = PyUnicode_AsWideCharString(<PyObject*> text, NULL)
+    ret =  tolk.Tolk_Braille(txt)
+    PyMem_Free(txt)
+    return ret
 
 
 @check_if_loaded
